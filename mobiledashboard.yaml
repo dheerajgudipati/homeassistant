@@ -1,0 +1,1137 @@
+views:
+  - title: Home
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: entity
+            entity: alarm_control_panel.lake_stevens_alarm
+            name: Alarm
+            icon_color: blue
+          - type: entity
+            entity: sensor.number_of_lights_on
+            icon_color: orange
+            use_entity_picture: true
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/lights
+            content_info: state
+            icon: mdi:lightbulb-group-outline
+          - type: entity
+            entity: sensor.number_of_exhaust_fans_on
+            content_info: state
+            icon_color: cyan
+            use_entity_picture: true
+            name: f
+            icon: mdi:fan
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/fans
+          - type: template
+            content: |-
+              {% set   doors = [
+                     'binary_sensor.doors'
+                     ] %}                                                               
+                     {{ expand(doors) | selectattr('state','eq','on') | list | count }} Open
+            icon: mdi:door-open
+            picture: ''
+            icon_color: green
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/doors
+          - type: entity
+            entity: climate.living_room_zone_1
+            content_info: state
+            icon_color: primary
+            use_entity_picture: true
+            name: AC
+          - type: template
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/packages
+            icon: mdi:package
+            content: Packages
+        alignment: center
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: |
+              {% set time = now().hour %}
+              {% if (time >= 18) %}
+                Good Evening, {{user}}!
+              {% elif (time >= 12) %}
+                Good Afternoon, {{user}}!
+              {% elif (time >= 5) %}
+                Good Morning, {{user}}!
+              {% else %}
+                Hello, {{user}}!
+              {% endif %} 
+            secondary: >-
+              {{ states('weather.forecast_home') }} {{
+              state_attr('weather.forecast_home', 'temperature') }}°F 
+            icon: ''
+            icon_color: ''
+            multiline_secondary: true
+            fill_container: true
+            badge_icon: ''
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-person-card
+            entity: person.dheeru
+            fill_container: true
+            icon_type: entity-picture
+            secondary_info: state
+          - type: custom:mushroom-person-card
+            entity: person.pinky
+            icon_type: entity-picture
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Lights
+            secondary: ''
+            icon: mdi:lightbulb
+            layout: vertical
+            badge_color: ''
+            icon_color: orange
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/all-lights
+          - type: custom:mushroom-template-card
+            primary: Cameras
+            secondary: ''
+            icon: mdi:cctv
+            layout: vertical
+            badge_color: ''
+            icon_color: orange
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/cameras
+          - type: custom:mushroom-template-card
+            primary: AC & Water
+            secondary: ''
+            icon: mdi:temperature-fahrenheit
+            layout: vertical
+            badge_color: ''
+            icon_color: orange
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/ac-water
+          - type: custom:mushroom-template-card
+            primary: Media
+            secondary: ''
+            icon: mdi:multimedia
+            layout: vertical
+            badge_color: ''
+            icon_color: orange
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/media
+      - type: custom:mushroom-title-card
+        title: Rooms
+        alignment: center
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Kitchen
+            secondary: >-
+              {{ state_attr('climate.living_room_zone_1', 'current_temperature')
+              }}°F 
+            icon: mdi:knife
+            icon_color: orange
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/kitchen
+            layout: vertical
+          - type: custom:mushroom-template-card
+            primary: Living Room
+            secondary: >-
+              {{ state_attr('climate.living_room_zone_1', 'current_temperature')
+              }}°F 
+            icon: mdi:sofa
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/living-room
+          - type: custom:mushroom-template-card
+            primary: Office
+            secondary: >-
+              {% set t = states('sensor.office_temperature_sensor_temperature')
+              | float %}
+                        {{t}}°F
+            icon: mdi:desk
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/office
+          - type: custom:mushroom-template-card
+            primary: Patio
+            secondary: '{{ state_attr(''weather.forecast_home'', ''temperature'') }}°F '
+            icon: mdi:patio-heater
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/Patio
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Front Porch
+            secondary: '{{ state_attr(''weather.forecast_home'', ''temperature'') }}°F '
+            icon: mdi:warehouse
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/Front Porch
+          - type: custom:mushroom-template-card
+            primary: Walkway
+            secondary: >-
+              {{ state_attr('climate.living_room_zone_1', 'current_temperature')
+              }}°F 
+            icon: mdi:walk
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/Walkway
+          - type: custom:mushroom-template-card
+            primary: Stairs
+            secondary: >-
+              {% set t = states('sensor.loft_temperature_sensor_temperature') |
+              float %}
+                        {{t}}°F
+            icon: mdi:stairs
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/Stairs
+          - type: custom:mushroom-template-card
+            primary: Loft
+            secondary: >-
+              {% set t = states('sensor.loft_temperature_sensor_temperature') |
+              float %}
+                        {{t}}°F
+            icon: mdi:picture-in-picture-bottom-right-outline
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/Loft
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Master Bedroom
+            secondary: |-
+              {% set t = states('sensor.master_bedroom_temperature') | float %}
+                        {{t}}°F
+            icon: mdi:bed
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/master-bedroom
+          - type: custom:mushroom-template-card
+            primary: Guest 01
+            secondary: >-
+              {% set t =
+              states('sensor.theater_room_temperature_sensor_temperature') |
+              float %}
+                        {{t}}°F
+            icon: mdi:theater
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/theater
+          - type: custom:mushroom-template-card
+            primary: Guest 02
+            secondary: >-
+              {% set t = states('sensor.guest_bedroom_01_temperature') | float
+              %}
+                        {{t}}°F
+            icon: mdi:bed
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/Stairs
+          - type: custom:mushroom-template-card
+            primary: Guest 03
+            secondary: >-
+              {% set t = states('sensor.guest_bedroom_02_temperature') | float
+              %}
+                        {{t}}°F
+            icon: mdi:bed
+            icon_color: orange
+            layout: vertical
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-mobile/Loft
+  - title: all_lights
+    path: all-lights
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.front_light
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.walkway
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.garage_lights
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.kitchen_lights
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.pantry_light
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.patio
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.office_room
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.lights
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.master_bath_lights
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: switch.walkway02
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.loft
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: switch.loft_walkway
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.living_room_lights
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+              - type: custom:mushroom-light-card
+                entity: light.theater_room_lights
+                layout: vertical
+                show_brightness_control: true
+                use_light_color: true
+                show_color_temp_control: true
+                show_color_control: true
+                collapsible_controls: false
+                icon: mdi:lightbulb-multiple
+  - title: CAMERAS
+    path: cameras
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - show_state: false
+            show_name: false
+            camera_view: live
+            type: picture-entity
+            entity: camera.driveway_fluent
+            image: https://demo.home-assistant.io/stub_config/bedroom.png
+            camera_image: camera.driveway_fluent
+          - show_state: false
+            show_name: false
+            camera_view: live
+            type: picture-entity
+            entity: camera.front_door_fluent
+            image: https://demo.home-assistant.io/stub_config/bedroom.png
+            camera_image: camera.front_door_fluent
+  - title: AC&WATER
+    path: ac-water
+    subview: true
+    cards:
+      - type: thermostat
+        entity: climate.living_room_zone_1
+        show_current_as_primary: true
+        theme: ios-dark-mode-light-blue-alternative
+        name: AC and Heater
+      - type: entities
+        entities:
+          - water_heater.heat_pump_water_heater
+  - title: Lights
+    path: lights
+    subview: true
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: entity-filter
+            title: Lights Currently On
+            show_header_toggle: false
+            entities:
+              - entity: light.living_room_lights
+                name: Living room
+                tap_action:
+                  action: toggle
+              - entity: light.kitchen_lights
+                name: Kitchen
+                tap_action:
+                  action: toggle
+              - entity: light.master_bath_lights
+                name: Master bathroom
+                tap_action:
+                  action: toggle
+              - entity: light.lights
+                name: Master Bedroom
+                tap_action:
+                  action: toggle
+              - entity: light.chandelier
+                name: Chandelier
+                tap_action:
+                  action: toggle
+              - entity: light.front_light
+                name: Front
+                tap_action:
+                  action: toggle
+              - entity: light.loft
+                name: Loft
+                tap_action:
+                  action: toggle
+              - entity: light.office_room
+                name: Office Room
+                tap_action:
+                  action: toggle
+              - entity: light.pantry_light
+                name: Pantry
+                tap_action:
+                  action: toggle
+              - entity: light.patio
+                name: Patio
+                tap_action:
+                  action: toggle
+              - entity: light.theater_room_lights
+                name: 01Bedroom
+                tap_action:
+                  action: toggle
+              - entity: light.garage_lights
+                name: Garage
+                tap_action:
+                  action: toggle
+              - entity: light.toilet_lights
+                name: Master Toilet
+                tap_action:
+                  action: toggle
+              - entity: light.walkway
+                name: Walkway
+                tap_action:
+                  action: toggle
+              - entity: switch.stair_lights
+                name: Stairs
+                tap_action:
+                  action: toggle
+              - entity: switch.loft_walkway
+                name: Loft walkway
+                tap_action:
+                  action: toggle
+              - entity: switch.walkway02
+                name: walkway02
+                tap_action:
+                  action: toggle
+              - entity: switch.olive_plant_light
+                name: Olive Plant
+                tap_action:
+                  action: toggle
+              - entity: light.bedroom02
+                name: 02Bedroom
+                tap_action:
+                  action: toggle
+            state_filter:
+              - 'on'
+              - open
+            show_empty: false
+            card:
+              type: glance
+              title: Lights Currently On
+  - title: kitchen
+    path: kitchen
+    subview: true
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.kitchen_lights
+                fill_container: true
+                use_light_color: true
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                collapsible_controls: false
+                layout: vertical
+                name: Kitchen
+              - type: custom:mushroom-light-card
+                entity: light.pantry_light
+                fill_container: true
+                use_light_color: true
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                collapsible_controls: false
+                layout: vertical
+  - title: Living room
+    path: living-room
+    subview: true
+    cards:
+      - type: custom:mushroom-title-card
+        title: Lights
+        alignment: center
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.living_room_lights
+                use_light_color: true
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                layout: vertical
+                name: Living Room
+                icon_color: accent
+                icon: mdi:ceiling-light-multiple-outline
+              - type: custom:mushroom-light-card
+                entity: light.chandelier
+                fill_container: true
+                use_light_color: true
+                show_brightness_control: true
+                show_color_control: true
+                show_color_temp_control: true
+                collapsible_controls: false
+                layout: vertical
+                icon: mdi:chandelier
+                icon_color: accent
+      - type: custom:mushroom-entity-card
+        layout: vertical
+        entity: light.olive_plant_light
+        icon_color: accent
+        icon: mdi:light-flood-up
+        fill_container: true
+        name: Olive Plant
+  - title: Office
+    path: office
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.office_room
+            fill_container: true
+            icon: mdi:lightbulb-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            layout: vertical
+          - type: custom:mushroom-entity-card
+            entity: sensor.hp_deskjet_2700_series_black_ink_2
+            fill_container: true
+            layout: vertical
+          - type: custom:mushroom-entity-card
+            entity: sensor.hp_deskjet_2700_series_tri_color_ink_2
+            fill_container: true
+            layout: vertical
+  - title: Front Porch
+    path: Front Porch
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.front_light
+            fill_container: true
+            icon: mdi:lightbulb-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            name: Front Porch and Driveway
+  - title: Patio
+    path: Patio
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.patio
+            fill_container: true
+            icon: mdi:lightbulb-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            layout: vertical
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.kauf_bulb
+            fill_container: true
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            collapsible_controls: true
+            name: Patio 01
+            layout: vertical
+          - type: custom:mushroom-light-card
+            entity: light.kauf_bulb_2
+            fill_container: true
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            collapsible_controls: true
+            name: Patio 02
+            layout: vertical
+  - title: Walkway
+    path: Walkway
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.walkway
+            fill_container: true
+            icon: mdi:ceiling-light-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            layout: vertical
+          - type: custom:mushroom-entity-card
+            entity: switch.walkway02
+            layout: vertical
+            icon: mdi:ceiling-light-multiple
+          - type: custom:mushroom-entity-card
+            entity: switch.foyer_closet
+            layout: vertical
+            icon: mdi:ceiling-light
+            icon_color: accent
+            fill_container: true
+            primary_info: name
+  - title: Stairs
+    path: Stairs
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: switch.stair_lights
+            fill_container: true
+            icon: mdi:lightbulb-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            layout: vertical
+  - title: Loft
+    path: Loft
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.loft
+            fill_container: true
+            icon: mdi:lightbulb-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            layout: vertical
+          - type: custom:mushroom-light-card
+            entity: switch.loft_walkway
+            fill_container: true
+            icon: mdi:lightbulb-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            layout: vertical
+  - title: Fans
+    path: fans
+    subview: true
+    cards:
+      - type: entity-filter
+        title: Fans Currently On
+        show_header_toggle: false
+        entities:
+          - entity: light.toilet_fan
+            name: Master toilet
+            tap_action:
+              action: toggle
+          - entity: light.bathroom_fan
+            name: Master bathroom
+            tap_action:
+              action: toggle
+          - entity: light.fan
+            icon: mdi:ceiling-fan
+            name: Master bedroom
+            tap_action:
+              action: toggle
+          - entity: light.01_guest_bathroom_fan
+            icon: mdi:ceiling-fan
+            name: 01 Guest bathroom
+            tap_action:
+              action: toggle
+        state_filter:
+          - 'on'
+          - open
+        show_empty: false
+        card:
+          type: glance
+          title: Fans Currently On
+  - title: Doors
+    path: doors
+    subview: true
+    cards:
+      - type: entity-filter
+        title: Lights Currently On
+        show_header_toggle: false
+        entities:
+          - entity: binary_sensor.patio_door
+            name: Patio door
+            tap_action:
+              action: toggle
+          - entity: binary_sensor.patio_door_2
+            name: Patio door
+            tap_action:
+              action: toggle
+          - entity: binary_sensor.front_door
+            name: Front door
+            tap_action:
+              action: toggle
+          - entity: binary_sensor.garage_door
+            name: Garage door
+            tap_action:
+              action: toggle
+          - entity: binary_sensor.fence_door
+            name: Fence door
+            tap_action:
+              action: toggle
+        state_filter:
+          - 'on'
+          - open
+        show_empty: false
+        card:
+          type: glance
+          title: Lights Currently On
+  - title: Media
+    path: media
+    subview: true
+    cards:
+      - type: media-control
+        entity: media_player.lg_webos_tv_oled77c2pua
+      - type: custom:mushroom-media-player-card
+        entity: media_player.entertainment_room
+        show_volume_level: true
+        use_media_info: true
+        volume_controls:
+          - volume_mute
+          - volume_set
+          - volume_buttons
+        media_controls:
+          - on_off
+          - shuffle
+          - play_pause_stop
+          - next
+          - repeat
+          - previous
+        collapsible_controls: true
+        name: Theater
+        fill_container: true
+      - type: custom:mushroom-media-player-card
+        show_volume_level: true
+        use_media_info: true
+        volume_controls:
+          - volume_mute
+          - volume_set
+          - volume_buttons
+        media_controls:
+          - on_off
+          - shuffle
+          - play_pause_stop
+          - next
+          - repeat
+          - previous
+        collapsible_controls: true
+        fill_container: true
+        entity: media_player.smarttv_4k
+        name: 'Bedroom '
+      - type: custom:mushroom-media-player-card
+        entity: media_player.living_room
+        use_media_info: true
+        show_volume_level: true
+        volume_controls:
+          - volume_mute
+          - volume_set
+          - volume_buttons
+        media_controls:
+          - on_off
+          - shuffle
+          - previous
+          - play_pause_stop
+          - next
+          - repeat
+        collapsible_controls: true
+        fill_container: true
+        name: 'Sonos '
+        primary_info: name
+        secondary_info: state
+        icon_type: entity-picture
+      - type: media-control
+        entity: media_player.master_bathroom
+  - title: Master Bedroom
+    path: master-bedroom
+    subview: true
+    cards:
+      - type: custom:mushroom-title-card
+        title: Lights
+        alignment: center
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.lights
+            fill_container: true
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            collapsible_controls: false
+            layout: vertical
+            icon: mdi:lightbulb-multiple
+            name: Bedroom
+          - type: custom:mushroom-light-card
+            entity: light.master_bath_lights
+            fill_container: true
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            collapsible_controls: false
+            layout: vertical
+            icon: mdi:lightbulb-multiple
+            name: Bathroom
+          - type: custom:mushroom-light-card
+            entity: light.toilet_lights
+            fill_container: true
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            collapsible_controls: false
+            layout: vertical
+            icon: mdi:lightbulb-multiple
+            name: Toilet
+      - type: custom:mushroom-light-card
+        fill_container: true
+        use_light_color: true
+        show_brightness_control: true
+        show_color_control: true
+        show_color_temp_control: true
+        collapsible_controls: false
+        layout: vertical
+        icon: mdi:globe-light
+        entity: light.closet_room
+        name: Closet light
+        icon_color: accent
+      - type: custom:mushroom-title-card
+        title: Fans
+        alignment: center
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-light-card
+            fill_container: true
+            use_light_color: false
+            show_brightness_control: false
+            show_color_control: false
+            show_color_temp_control: false
+            collapsible_controls: false
+            layout: vertical
+            entity: light.fan
+            icon: mdi:ceiling-fan
+            icon_color: blue
+            name: Bedroom
+          - type: custom:mushroom-light-card
+            entity: light.bathroom_fan
+            fill_container: true
+            use_light_color: false
+            show_brightness_control: false
+            show_color_control: false
+            show_color_temp_control: false
+            collapsible_controls: false
+            layout: vertical
+            icon_color: blue
+            name: Bathroom
+          - type: custom:mushroom-light-card
+            entity: light.toilet_fan
+            fill_container: true
+            use_light_color: false
+            show_brightness_control: false
+            show_color_control: false
+            show_color_temp_control: false
+            collapsible_controls: false
+            layout: vertical
+            icon_color: blue
+            name: Toilet
+      - type: custom:mushroom-title-card
+        title: Blinds
+        alignment: center
+      - type: custom:shutter-card
+        title: null
+        entities:
+          - entity: cover.master_bedroom_shades
+            name: shades
+            buttons_position: left
+            title_position: bottom
+      - type: entities
+        entities:
+          - cover.master_bedroom_shades
+  - title: Theater
+    path: theater
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-light-card
+            entity: light.theater_room_lights
+            fill_container: true
+            icon: mdi:lightbulb-multiple
+            use_light_color: true
+            show_brightness_control: true
+            show_color_control: true
+            show_color_temp_control: true
+            layout: vertical
+  - title: Packages
+    path: packages
+    subview: true
+    icon: mdi:package
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.mail_packages_delivered
+          - entity: sensor.mail_packages_in_transit
+          - entity: sensor.mail_updated
+        title: Deliveries
+        show_header_toggle: false
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: USPS Mail
+                secondary: '{{ states(''sensor.mail_usps_mail'') }} pc'
+                icon: |-
+                  {% if states('sensor.mail_usps_mail')|int > 0 %}
+                  mdi:mailbox-open-up
+                  {% else %}
+                  mdi:mailbox
+                  {% endif %}
+                icon_color: black
+              - type: custom:mushroom-template-card
+                primary: USPS Packages
+                secondary: >-
+                  {{ states('sensor.mail_usps_packages') }} ➤ {{
+                  states('sensor.mail_usps_delivering') }} ➤ {{
+                  states('sensor.mail_usps_delivered') }}
+                icon: mdi:package-variant-closed
+                icon_color: |-
+                  {% if states('sensor.mail_usps_delivered')|int > 0 %}
+                  green
+                  {% elif states('sensor.mail_usps_delivering')|int > 0 %}
+                  blue
+                  {% elif states('sensor.mail_usps_packages')|int > 0 %}
+                  yellow
+                  {% elif states('sensor.mail_usps_packages')|int == 0 %}
+                  white
+                  {% else %}
+                  gray
+                  {% endif %}
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: UPS Packages
+                secondary: >-
+                  {{ states('sensor.mail_ups_packages') }} ➤ {{
+                  states('sensor.mail_ups_delivering') }} ➤ {{
+                  states('sensor.mail_ups_delivered') }}
+                icon: mdi:alpha-u-box-outline
+                icon_color: |-
+                  {% if states('sensor.mail_ups_delivered')|int > 0 %}
+                  green
+                  {% elif states('sensor.mail_ups_delivering')|int > 0 %}
+                  blue
+                  {% elif states('sensor.mail_ups_packages')|int > 0 %}
+                  yellow
+                  {% elif states('sensor.mail_ups_packages')|int == 0 %}
+                  white
+                  {% else %}
+                  gray
+                  {% endif %}
+              - type: custom:mushroom-template-card
+                primary: Fedex Packages
+                secondary: >-
+                  {{ states('sensor.mail_fedex_packages') }} ➤ {{
+                  states('sensor.mail_fedex_delivering') }} ➤ {{
+                  states('sensor.mail_fedex_delivered') }}
+                icon: mdi:alpha-f-box-outline
+                icon_color: |-
+                  {% if states('sensor.mail_fedex_delivered')|int > 0 %}
+                  green
+                  {% elif states('sensor.mail_fedex_delivering')|int > 0 %}
+                  blue
+                  {% elif states('sensor.mail_fedex_packages')|int > 0 %}
+                  yellow
+                  {% elif states('sensor.mail_fedex_packages')|int == 0 %}
+                  gray
+                  {% else %}
+                  red
+                  {% endif %}
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Amazon Packages
+                secondary: >-
+                  {{ states('sensor.mail_amazon_packages') }} ➤ {{
+                  states('sensor.mail_amazon_packages_delivered') }}
+                icon: mdi:alpha-a-box-outline
+                icon_color: >-
+                  {% if states('sensor.mail_amazon_packages_delivered')|int > 0
+                  %}
+
+                  green
+
+                  {% elif states('sensor.mail_amazon_packages')|int > 0 %}
+
+                  yellow
+
+                  {% elif states('sensor.mail_amazon_packages')|int == 0 %}
+
+                  gray
+
+                  {% else %}
+
+                  red
+
+                  {% endif %}
+              - type: custom:mushroom-template-card
+                primary: Walmart Packages
+                secondary: >-
+                  {{ states('sensor.mail_walmart_delivering') }} ➤ {{
+                  states('sensor.mail_walmart_delivered') }}
+                icon: mdi:alpha-w-box-outline
+                icon_color: |-
+                  {% if states('sensor.mail_walmart_delivered')|int > 0 %}
+                  green
+                  {% elif states('sensor.mail_walmart_delivering')|int > 0 %}
+                  blue
+                  {% elif states('sensor.mail_walmart_exception')|int > 0 %}
+                  yellow
+                  {% elif states('sensor.mail_walmart_exception')|int == 0 %}
+                  gray
+                  {% else %}
+                  red
+                  {% endif %}
+      - type: picture-entity
+        entity: camera.mail_amazon_delivery_camera
+      - type: picture-entity
+        entity: camera.mail_usps_camera
+  - title: test
+    path: test
+    cards: []
+    subview: true
