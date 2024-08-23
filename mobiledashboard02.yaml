@@ -1,0 +1,344 @@
+type: vertical-stack
+cards:
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: alarm_control_panel.lake_stevens_alarm
+        name: Alarm
+        icon_color: blue
+      - type: entity
+        entity: sensor.number_of_lights_on
+        icon_color: orange
+        use_entity_picture: true
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/lights
+        content_info: state
+        icon: mdi:lightbulb-group-outline
+      - type: entity
+        entity: sensor.number_of_exhaust_fans_on
+        content_info: state
+        icon_color: cyan
+        use_entity_picture: true
+        name: f
+        icon: mdi:fan
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/fans
+      - type: template
+        content: |-
+          {% set   doors = [
+                 'binary_sensor.doors'
+                 ] %}                                                               
+                 {{ expand(doors) | selectattr('state','eq','on') | list | count }} Open
+        icon: mdi:door-open
+        picture: ''
+        icon_color: green
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/doors
+      - type: entity
+        entity: climate.living_room_zone_1
+        content_info: state
+        icon_color: primary
+        use_entity_picture: true
+        name: AC
+      - type: template
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/packages
+        icon: mdi:package
+        content: Packages
+      - type: entity
+        entity: sensor.front_load_washer
+        icon_color: red
+      - type: entity
+        entity: sensor.dryer
+    alignment: center
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-template-card
+        primary: |
+          {% set time = now().hour %}
+          {% if (time >= 18) %}
+            Good Evening, {{user}}!
+          {% elif (time >= 12) %}
+            Good Afternoon, {{user}}!
+          {% elif (time >= 5) %}
+            Good Morning, {{user}}!
+          {% else %}
+            Hello, {{user}}!
+          {% endif %} 
+        secondary: >-
+          {{ states('weather.forecast_home') }} {{
+          state_attr('weather.forecast_home', 'temperature') }}°F 
+        icon: ''
+        icon_color: ''
+        multiline_secondary: true
+        fill_container: true
+        badge_icon: ''
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Lights
+        secondary: ''
+        icon: mdi:lightbulb
+        layout: vertical
+        badge_color: ''
+        icon_color: orange
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/all-lights
+      - type: custom:mushroom-template-card
+        primary: Cameras
+        secondary: ''
+        icon: mdi:cctv
+        layout: vertical
+        badge_color: ''
+        icon_color: orange
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/cameras
+      - type: custom:mushroom-template-card
+        primary: AC & Water
+        secondary: ''
+        icon: mdi:temperature-fahrenheit
+        layout: vertical
+        badge_color: ''
+        icon_color: orange
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/ac-water
+      - type: custom:mushroom-template-card
+        primary: Media
+        secondary: ''
+        icon: mdi:multimedia
+        layout: vertical
+        badge_color: ''
+        icon_color: orange
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-mobile/media
+  - type: custom:mushroom-title-card
+    title: Rooms
+    alignment: center
+  - type: horizontal-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: entities
+            entities:
+              - entity: sensor.great_room_temperature
+                name: GreatRoom
+                icon: mdi:sofa-outline
+                icon_color: orange
+                type: custom:multiple-entity-row
+                entities:
+                  - entity: light.kitchen_lights
+                    icon: mdi:ceiling-light-multiple-outline
+                    name: Kitchen
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.living_room_lights
+                    icon: mdi:ceiling-light-multiple-outline
+                    name: LivingRoom
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.olive_plant_light
+                    name: Plant
+                    icon: mdi:light-flood-up
+                    toggle: true
+                    state_color: true
+                    show_state: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.chandelier
+                    name: Chandelier
+                    icon: mdi:chandelier
+                    toggle: true
+                    state_color: true
+                    show_state: true
+                    tap_action:
+                      action: toggle
+  - type: horizontal-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: entities
+            name: Master
+            entities:
+              - entity: sensor.master_bedroom_temperature
+                name: Master
+                icon: mdi:bed
+                icon_color: orange
+                type: custom:multiple-entity-row
+                entities:
+                  - entity: light.fan
+                    icon: mdi:ceiling-fan
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: switch.master_bedroom_tower_fan
+                    name: TowerFan
+                    icon: mdi:fan
+                    toggle: true
+                    state_color: true
+                    show_state: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.lights
+                    icon: mdi:ceiling-light-multiple-outline
+                    name: Lights
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.master_bath_lights
+                    name: BathroomLights
+                    icon: mdi:ceiling-light-multiple-outline
+                    toggle: true
+                    state_color: true
+                    show_state: true
+                    tap_action:
+                      action: toggle
+  - type: horizontal-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: entities
+            entities:
+              - entity: sensor.guest_bedroom_01_temperature
+                name: Guest
+                icon: mdi:bed
+                icon_color: orange
+                type: custom:multiple-entity-row
+                entities:
+                  - entity: light.theater_room_lights
+                    icon: mdi:ceiling-light
+                    name: Bedroom01
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.bedroom02
+                    icon: mdi:ceiling-light
+                    name: Bedroom02
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.bedroom02
+                    icon: mdi:ceiling-light
+                    name: Bedroom03
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+  - type: horizontal-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: entities
+            entities:
+              - entity: sensor.loft_temperature_sensor_temperature
+                name: Loft
+                icon: mdi:home-floor-l
+                icon_color: orange
+                type: custom:multiple-entity-row
+                entities:
+                  - entity: light.loft
+                    icon: mdi:ceiling-light-outline
+                    name: Loft
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: switch.loft_walkway
+                    icon: mdi:ceiling-light-multiple-outline
+                    name: Loft walkway
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: switch.stair_lights
+                    icon: mdi:ceiling-light-multiple-outline
+                    name: Stairs
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+  - type: horizontal-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: entities
+            entities:
+              - entity: sensor.great_room_temperature
+                name: Outdoor
+                icon: mdi:warehouse
+                icon_color: orange
+                type: custom:multiple-entity-row
+                entities:
+                  - entity: light.front_light
+                    icon: mdi:outdoor-lamp
+                    name: Porch and Driveway
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+                  - entity: light.patio
+                    icon: mdi:outdoor-lamp
+                    name: Patio
+                    toggle: true
+                    show_state: true
+                    state_color: true
+                    tap_action:
+                      action: toggle
+  - type: entities
+    entities:
+      - entity: sensor.great_room_temperature
+        name: Entryway
+        icon: mdi:walk
+        icon_color: orange
+        type: custom:multiple-entity-row
+        entities:
+          - entity: light.walkway
+            icon: mdi:ceiling-light-multiple-outline
+            name: Walkway01
+            toggle: true
+            show_state: true
+            state_color: true
+            tap_action:
+              action: toggle
+          - entity: switch.walkway02
+            icon: mdi:ceiling-light-multiple-outline
+            name: Walkway02
+            toggle: true
+            show_state: true
+            state_color: true
+            tap_action:
+              action: toggle
+          - entity: light.office_room
+            icon: mdi:ceiling-light-outline
+            name: Office
+            toggle: true
+            show_state: true
+            state_color: true
+            tap_action:
+              action: toggle
